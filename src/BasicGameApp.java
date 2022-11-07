@@ -41,6 +41,7 @@ public class BasicGameApp implements Runnable {
 	public BufferStrategy bufferStrategy;
 	public Image astroPic;
 	public Image alienPic;
+	public Image spacePic;
 
 	//Declare the objects used in the program
 	//These are things that are made up of more than one variable type
@@ -68,7 +69,9 @@ public class BasicGameApp implements Runnable {
 
 		alienPic = Toolkit.getDefaultToolkit().getImage("alienIcon.png");
 		alien = new Astronaut ("alien", 50, 300);
-		alien.dy = 0;
+		// alien.dy = 0;
+
+		spacePic = Toolkit.getDefaultToolkit().getImage("space.png");
 
 	} // end BasicGameApp constructor
 
@@ -145,4 +148,5 @@ public class BasicGameApp implements Runnable {
 		g.dispose();
 		bufferStrategy.show();
 	}
+
 }
