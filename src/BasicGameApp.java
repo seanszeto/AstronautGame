@@ -41,7 +41,7 @@ public class BasicGameApp implements Runnable {
 	public BufferStrategy bufferStrategy;
 	public Image astroPic;
 	public Image alienPic;
-	public Image spacePic;
+	public Image backgroundPic;
 
 	//Declare the objects used in the program
 	//These are things that are made up of more than one variable type
@@ -71,7 +71,7 @@ public class BasicGameApp implements Runnable {
 		alien = new Astronaut ("alien", 50, 300);
 		// alien.dy = 0;
 
-		spacePic = Toolkit.getDefaultToolkit().getImage("space.png");
+		backgroundPic = Toolkit.getDefaultToolkit().getImage("space.png");
 
 	} // end BasicGameApp constructor
 
@@ -88,6 +88,7 @@ public class BasicGameApp implements Runnable {
 		//for the moment we will loop things forever.
 		while (true) {
 			moveThings();  //move all the game objects
+			crash();
 			render();  // paint the graphics
 			pause(20); // sleep for 10 ms
 		}
@@ -98,6 +99,14 @@ public class BasicGameApp implements Runnable {
 		astro.bounce();
 		alien.wrap();
 
+	}
+
+	public void crash(){
+		if (astro.rec.intersects(alien.rec)){
+			// System.out.println("CRASH");
+			// astro.bounce();
+			astro.changeDirection();
+		}
 	}
 
 	//Pauses or sleeps the computer for the amount specified in milliseconds
@@ -142,9 +151,19 @@ public class BasicGameApp implements Runnable {
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 
+		g.drawImage(backgroundPic, 0, 0, WIDTH, HEIGHT, null);
+
+		if (astro.isAlive){
+			g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+			g.drawRect(astro.rec.x, astro.rec.y, astro.rec.width, astro.rec.width);
+		}
 		//draw the image of the astronaut
-		g.drawImage(astroPic, astro.xpos, astro.ypos, astro.width, astro.height, null);
+
 		g.drawImage(alienPic, alien.xpos, alien.ypos, alien.width, alien.height, null);
+		g.drawRect(alien.rec.x, alien.rec.y, alien.rec.width,alien.rec.height);
+
+
+
 		g.dispose();
 		bufferStrategy.show();
 	}
